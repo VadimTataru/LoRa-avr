@@ -9,12 +9,19 @@
 #ifndef LORA_H_
 #define LORA_H_
 
-//Инициализация LoRa
+#include <avr/io.h>
+
+//пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ LoRa
 uint8_t lora_init();
 
-//Код версии чипсета
+//пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 uint8_t lora_check_version();
 
+void lora_set_frequency(uint32_t freq);
+
+void lora_stanby();
+
+void lora_sleep();
 
 
 #endif /* LORA_H_ */

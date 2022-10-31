@@ -8,6 +8,8 @@
 #ifndef UART_H_
 #define UART_H_
 
+#include <avr/io.h>
+
 #define  TX0		PE1
 #define  DDR_TX		DDRE
 #define  PORT_TX	PORTE 
@@ -17,18 +19,23 @@
 #define  PORT_RX	PORTE
 
 /*
- * Инициализация uart
+ * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ uart
  */
-void uart_init(unsigned int con_speed);
+void uart_init(uint8_t con_speed);
 
 /*
- * Отправка данных
+ * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
  */
-void uart_transmit(unsigned char data);
+void uart_transmit(uint8_t data);
 
 /*
- * Получение данных
+ * пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
  */
-unsigned char uart_receive();
+uint8_t uart_receive();
+
+uint8_t uart_write_register(uint8_t reg, uint8_t value);
+
+uint8_t uart_read_register(uint8_t reg);
+
 
 #endif /* UART_H_ */

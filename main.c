@@ -12,17 +12,19 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include "uart.h"
+#include "lora.h"
 
 int main(void)
 {
 	uart_init(MYUBRR);
 
-	for (;;)
-	{
-		_delay_ms(1000);
-		uart_transmit('a')
+	if(lora_init() == 1) {
+		while(1) {
+			//start working
+		}
+	} else {
+		while (1) {/*error*/}
 	}
-
 
 	return 0;
 }
