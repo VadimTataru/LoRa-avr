@@ -45,5 +45,10 @@ void lora_sleep() {
 }
 
 void set_tx_power(uint8_t level) {
-
+    if(level < 2) 
+        level = 2;
+    else if(level > 17)
+        level = 17;
+    
+    uart_write_register(REG_PA_CONFIG, PA_BOOST | (level - 2));
 }
