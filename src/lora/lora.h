@@ -12,6 +12,7 @@
 #include <avr/io.h>
 
 //Registers
+#define REG_OP_MODE                 0x01
 #define REG_FIFO_TX_BASE_ADDR       0x0e
 #define REG_FIFO_RX_BASE_ADDR       0x0f
 #define REG_LNA                     0x0c

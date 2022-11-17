@@ -41,7 +41,7 @@ void lora_stanby() {
 }
 
 void lora_sleep() {
-
+    uart_write_register(REG_OP_MODE, MODE_LONG_RANGE_MODE | MODE_SLEEP);
 }
 
 void set_tx_power(uint8_t level) {
