@@ -40,5 +40,7 @@ uint8_t uart_write_register(uint8_t reg, uint8_t value) {
 }
 
 uint8_t uart_read_register(uint8_t reg) {
-
+	uart_transmit(reg & 0x7f);
+	uart_transmit(0x00);
+	return uart_receive();
 }

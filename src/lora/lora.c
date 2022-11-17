@@ -12,9 +12,11 @@ uint8_t lora_init() {
     if(lora_check_version() == 1) {
         lora_sleep();
         lora_set_frequency(433E6);
-        /*
-            other settings
-        */
+        uart_write_register(REG_FIFO_TX_BASE_ADDR, 0);
+        uart_write_register(REG_FIFO_RX_BASE_ADDR, 0);
+        uart_write_register(REG_LNA, uart_read_register(REG_LNA) | 0x03);
+        uart_write_register(REG_MODEM_CONFIG_3, 0x04);                          // set auto AGC
+        set_tx_power(17);
         lora_stanby();
         return 1;
     }
@@ -39,5 +41,9 @@ void lora_stanby() {
 }
 
 void lora_sleep() {
+
+}
+
+void set_tx_power(uint8_t level) {
 
 }

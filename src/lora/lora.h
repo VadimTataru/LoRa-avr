@@ -11,6 +11,19 @@
 
 #include <avr/io.h>
 
+//Registers
+#define REG_FIFO_TX_BASE_ADDR       0x0e
+#define REG_FIFO_RX_BASE_ADDR       0x0f
+#define REG_LNA                     0x0c
+#define REG_MODEM_CONFIG_1          0x1d
+#define REG_MODEM_CONFIG_2          0x1e
+#define REG_MODEM_CONFIG_3          0x26
+
+//modes
+#define MODE_LONG_RANGE_MODE        0x80
+#define MODE_SLEEP                  0x00
+#define MODE_STDBY                  0x01
+
 //������������� LoRa
 uint8_t lora_init();
 
@@ -22,6 +35,8 @@ void lora_set_frequency(uint32_t freq);
 void lora_stanby();
 
 void lora_sleep();
+
+void set_tx_power(uint8_t level);
 
 
 #endif /* LORA_H_ */
