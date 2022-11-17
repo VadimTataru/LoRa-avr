@@ -20,6 +20,8 @@
 #define REG_MODEM_CONFIG_1          0x1d
 #define REG_MODEM_CONFIG_2          0x1e
 #define REG_MODEM_CONFIG_3          0x26
+#define REG_VERSION                 0x42
+#define REG_TEST                    0x1a
 
 //modes
 #define MODE_LONG_RANGE_MODE        0x80
@@ -33,7 +35,7 @@
 uint8_t lora_init();
 
 //��� ������ �������
-uint8_t lora_check_version();
+bool lora_check_version();
 
 void lora_set_frequency(uint32_t freq);
 

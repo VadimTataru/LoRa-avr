@@ -9,22 +9,23 @@
 #include "uart.h"
 
 uint8_t lora_init() {
-    if(lora_check_version() == 1) {
-        lora_sleep();
-        lora_set_frequency(433E6);
-        uart_write_register(REG_FIFO_TX_BASE_ADDR, 0);
-        uart_write_register(REG_FIFO_RX_BASE_ADDR, 0);
-        uart_write_register(REG_LNA, uart_read_register(REG_LNA) | 0x03);
-        uart_write_register(REG_MODEM_CONFIG_3, 0x04);                          // set auto AGC
-        set_tx_power(17);
-        lora_stanby();
-        return 1;
-    }
-    return 0;
+
+    if(!lora_check_version()) 
+        return 0;
+    lora_sleep();
+    lora_set_frequency(433E6);
+    uart_write_register(REG_FIFO_TX_BASE_ADDR, 0);
+    uart_write_register(REG_FIFO_RX_BASE_ADDR, 0);
+    uart_write_register(REG_LNA, uart_read_register(REG_LNA) | 0x03);
+    uart_write_register(REG_MODEM_CONFIG_3, 0x04);                          // set auto AGC
+    set_tx_power(17);
+    lora_stanby();
+    return 1;
 }
 
-uint8_t lora_check_version() {
-    return 0;
+bool lora_check_version() {
+    uint8_t version = uart_read_register(REG_VERSION);
+    return (version != 0x12)
 }
 
 void lora_set_frequency(uint32_t freq) {
@@ -35,6 +36,7 @@ void lora_set_frequency(uint32_t freq) {
     uart_write_register(0x07, (uint8_t)(frf << 8));
     uart_write_register(0x08, (uint8_t)(frf << 0));
 }
+
 
 void lora_stanby() {
     uart_write_register(REG_OP_MODE, MODE_LONG_RANGE_MODE | MODE_STDBY);
