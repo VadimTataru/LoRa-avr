@@ -37,7 +37,7 @@ void lora_set_frequency(uint32_t freq) {
 }
 
 void lora_stanby() {
-
+    uart_write_register(REG_OP_MODE, MODE_LONG_RANGE_MODE | MODE_STDBY);
 }
 
 void lora_sleep() {
