@@ -14,10 +14,9 @@ uint8_t lora_init() {
         return 0;
     lora_sleep();
     lora_set_frequency(433E6);
-    uart_write_register(REG_FIFO_TX_BASE_ADDR, 0);
-    uart_write_register(REG_FIFO_RX_BASE_ADDR, 0);
+    set_address(0, 0);
     uart_write_register(REG_LNA, uart_read_register(REG_LNA) | 0x03);
-    uart_write_register(REG_MODEM_CONFIG_3, 0x04);                          // set auto AGC
+    uart_write_register(REG_MODEM_CONFIG_3, 0x04);                          // задаём автоматическую регулировку усиления (АРУ)
     set_tx_power(17);
     lora_stanby();
     return 1;
@@ -53,4 +52,9 @@ void set_tx_power(uint8_t level) {
         level = 17;
     
     uart_write_register(REG_PA_CONFIG, PA_BOOST | (level - 2));
+}
+
+void set_address(uint8_t add_tx, uint8_t add_rx) {
+    uart_write_register(REG_FIFO_TX_BASE_ADDR, add_tx);
+    uart_write_register(REG_FIFO_RX_BASE_ADDR, add_rx);
 }

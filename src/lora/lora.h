@@ -31,10 +31,8 @@
 //PA config
 #define PA_BOOST                    0x80
 
-//������������� LoRa
 uint8_t lora_init();
 
-//��� ������ �������
 bool lora_check_version();
 
 void lora_set_frequency(uint32_t freq);
@@ -44,6 +42,8 @@ void lora_stanby();
 void lora_sleep();
 
 void set_tx_power(uint8_t level);
+
+void set_address(uint8_t add_tx, uint8_t add_rx);
 
 
 #endif /* LORA_H_ */
