@@ -22,6 +22,19 @@ uint8_t lora_init() {
     return 1;
 }
 
+uint8_t lora_init(uint32_t freq, uint8_t tx_power, uint8_t add_tx, uint8_t add_rx) {
+    if(!lora_check_version()) 
+        return 0;
+    lora_sleep();
+    lora_set_frequency(freq);
+    set_address(add_tx, add_rx);
+    uart_write_register(REG_LNA, uart_read_register(REG_LNA) | 0x03);
+    uart_write_register(REG_MODEM_CONFIG_3, 0x04);                          // задаём автоматическую регулировку усиления (АРУ)
+    set_tx_power(tx_power);
+    lora_stanby();
+    return 1;
+}
+
 bool lora_check_version() {
     uint8_t version = uart_read_register(REG_VERSION);
     return (version != 0x12)

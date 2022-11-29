@@ -33,6 +33,8 @@
 
 uint8_t lora_init();
 
+uint8_t lora_init(uint32_t freq, uint8_t tx_power, uint8_t add_tx, uint8_t add_rx);
+
 bool lora_check_version();
 
 void lora_set_frequency(uint32_t freq);
