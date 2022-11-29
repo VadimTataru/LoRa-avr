@@ -12,6 +12,7 @@
 #include <avr/io.h>
 
 //Registers
+#define REG_FIFO                    0x00
 #define REG_OP_MODE                 0x01
 #define REG_FIFO_TX_BASE_ADDR       0x0e
 #define REG_FIFO_RX_BASE_ADDR       0x0f
@@ -21,7 +22,9 @@
 #define REG_MODEM_CONFIG_2          0x1e
 #define REG_MODEM_CONFIG_3          0x26
 #define REG_VERSION                 0x42
-#define REG_TEST                    0x1a
+#define REG_PAYLOAD_LENGTH          0x22
+#define REG_RX_NB_BYTES             0x13
+/*#defineREG_TEST0x1a*/
 
 //modes
 #define MODE_LONG_RANGE_MODE        0x80
@@ -30,6 +33,9 @@
 
 //PA config
 #define PA_BOOST                    0x80
+
+//package
+#define MAX_PKT_LENGTH              255
 
 uint8_t lora_init();
 
@@ -46,6 +52,10 @@ void lora_sleep();
 void set_tx_power(uint8_t level);
 
 void set_address(uint8_t add_tx, uint8_t add_rx);
+
+uint8_t writeMessage(const char *buffer, uint8_t size)
+
+int8_t readMessage();
 
 
 #endif /* LORA_H_ */

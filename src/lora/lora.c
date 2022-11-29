@@ -8,6 +8,8 @@
 #include "lora.h"
 #include "uart.h"
 
+uint8_t packetIndex = 0;
+
 uint8_t lora_init() {
 
     if(!lora_check_version()) 
@@ -70,4 +72,26 @@ void set_tx_power(uint8_t level) {
 void set_address(uint8_t add_tx, uint8_t add_rx) {
     uart_write_register(REG_FIFO_TX_BASE_ADDR, add_tx);
     uart_write_register(REG_FIFO_RX_BASE_ADDR, add_rx);
+}
+
+uint8_t writeMessage(const char *buffer, uint8_t size) {
+    uint16_t currentLength = _readRegister(REG_PAYLOAD_LENGTH);
+    if ((currentLength + size) > MAX_PKT_LENGTH)                // check size
+        size = MAX_PKT_LENGTH - currentLength;
+    for (uint8_t i=0; i<size; i++) {                         // write data
+        _writeRegister(REG_FIFO, buffer[i]);
+    }
+    _writeRegister(REG_PAYLOAD_LENGTH, currentLength + size);    // update length
+    return size;
+}
+
+int8_t available() {
+    return (_readRegister(REG_RX_NB_BYTES) - packetIndex);
+}
+
+int8_t readMessage() {
+    if (!available())
+        return -1;
+    packetIndex++;
+    return _readRegister(REG_FIFO);
 }
