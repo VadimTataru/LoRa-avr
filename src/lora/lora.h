@@ -37,17 +37,51 @@
 //package
 #define MAX_PKT_LENGTH              255
 
+enum HEAD_TYPE {
+    SAVE_CNFG = 0xC0,
+    UNSAVE_CNFG = 0xC2
+}
+
+struct Speed
+{
+    uint8_t air_data_rt: 3;
+    uint8_t uart_baud_rt: 3;
+    uint8_t uart_parity: 2;
+};
+
+struct Option
+{
+    uint8_t transmission_power: 2;  //Transmission power      
+    uint8_t fec: 1;                 //FEC
+    uint8_t wrlss_wkp_time: 3;      //wireless wake up time
+    uint8_t io_drv_mode: 1;         //IO drive mode
+    uint8_t fxed_transmittion: 1;   //fixed transmission
+};
+
+
+typedef struct
+{
+    enum HEAD_TYPE HEAD;
+    uint8_t ADDH;
+    uint8_t ADDL;
+    //struct Speed SPED;
+    uint8_t SPED;
+    uint8_t CHAN;
+    uint8_t OPTION;
+    //struct Option OPTRION;    
+} Config;
+
 uint8_t lora_init();
 
-uint8_t lora_init(uint32_t freq, uint8_t tx_power, uint8_t add_tx, uint8_t add_rx);
+uint8_t lora_init_with_config(Config cnfg);
 
-bool lora_check_version();
+uint8_t lora_check_version();
 
 void lora_set_frequency(uint32_t freq);
 
 void lora_stanby();
 
-void lora_sleep();
+void lora_sleep_mode();
 
 void set_tx_power(uint8_t level);
 

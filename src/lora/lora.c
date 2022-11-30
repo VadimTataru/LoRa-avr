@@ -24,22 +24,25 @@ uint8_t lora_init() {
     return 1;
 }
 
-uint8_t lora_init(uint32_t freq, uint8_t tx_power, uint8_t add_tx, uint8_t add_rx) {
+uint8_t lora_init_with_config(Config cnfg) {
     if(!lora_check_version()) 
         return 0;
     lora_sleep();
-    lora_set_frequency(freq);
-    set_address(add_tx, add_rx);
-    uart_write_register(REG_LNA, uart_read_register(REG_LNA) | 0x03);
-    uart_write_register(REG_MODEM_CONFIG_3, 0x04);                          // задаём автоматическую регулировку усиления (АРУ)
-    set_tx_power(tx_power);
+
+    uart_transmit(cnfg.HEAD);
+    uart_transmit(cnfg.ADDH);
+    uart_transmit(cnfg.ADDL);
+    uart_transmit(cnfg.SPED);
+    uart_transmit(cnfg.CHAN);
+    uart_transmit(cnfg.OPTIONS);
+
     lora_stanby();
     return 1;
 }
 
-bool lora_check_version() {
+uint8_t lora_check_version() {
     uint8_t version = uart_read_register(REG_VERSION);
-    return (version != 0x12)
+    return version == 0x12 ? 1 : 0;
 }
 
 void lora_set_frequency(uint32_t freq) {
@@ -50,7 +53,6 @@ void lora_set_frequency(uint32_t freq) {
     uart_write_register(0x07, (uint8_t)(frf << 8));
     uart_write_register(0x08, (uint8_t)(frf << 0));
 }
-
 
 void lora_stanby() {
     uart_write_register(REG_OP_MODE, MODE_LONG_RANGE_MODE | MODE_STDBY);
@@ -75,23 +77,23 @@ void set_address(uint8_t add_tx, uint8_t add_rx) {
 }
 
 uint8_t writeMessage(const char *buffer, uint8_t size) {
-    uint16_t currentLength = _readRegister(REG_PAYLOAD_LENGTH);
+    uint16_t currentLength = uart_read_register(REG_PAYLOAD_LENGTH);
     if ((currentLength + size) > MAX_PKT_LENGTH)                // check size
         size = MAX_PKT_LENGTH - currentLength;
     for (uint8_t i=0; i<size; i++) {                         // write data
-        _writeRegister(REG_FIFO, buffer[i]);
+        uart_write_register(REG_FIFO, buffer[i]);
     }
-    _writeRegister(REG_PAYLOAD_LENGTH, currentLength + size);    // update length
+    uart_write_register(REG_PAYLOAD_LENGTH, currentLength + size);    // update length
     return size;
 }
 
 int8_t available() {
-    return (_readRegister(REG_RX_NB_BYTES) - packetIndex);
+    return (uart_read_register(REG_RX_NB_BYTES) - packetIndex);
 }
 
 int8_t readMessage() {
     if (!available())
         return -1;
     packetIndex++;
-    return _readRegister(REG_FIFO);
+    return uart_read_register(REG_FIFO);
 }
