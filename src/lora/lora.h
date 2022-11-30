@@ -11,6 +11,11 @@
 
 #include <avr/io.h>
 
+#define M0                          PE5
+#define M1                          PE6
+#define DDR_E		                DDRE
+#define PORT_E	                    PORTE
+
 //Registers
 #define REG_FIFO                    0x00
 #define REG_OP_MODE                 0x01

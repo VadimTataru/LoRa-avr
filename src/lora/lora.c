@@ -15,11 +15,16 @@ uint8_t lora_init() {
     if(!lora_check_version()) 
         return 0;
     lora_sleep();
+
     lora_set_frequency(433E6);
     set_address(0, 0);
-    uart_write_register(REG_LNA, uart_read_register(REG_LNA) | 0x03);
-    uart_write_register(REG_MODEM_CONFIG_3, 0x04);                          // задаём автоматическую регулировку усиления (АРУ)
+    uart_write_register(
+        REG_LNA, 
+        uart_read_register(REG_LNA) | 0x03
+    );
+    uart_write_register(REG_MODEM_CONFIG_3, 0x04);
     set_tx_power(17);
+
     lora_stanby();
     return 1;
 }
@@ -55,11 +60,17 @@ void lora_set_frequency(uint32_t freq) {
 }
 
 void lora_stanby() {
-    uart_write_register(REG_OP_MODE, MODE_LONG_RANGE_MODE | MODE_STDBY);
+    uart_write_register(
+        REG_OP_MODE, 
+        MODE_LONG_RANGE_MODE | MODE_STDBY
+    );
 }
 
 void lora_sleep() {
-    uart_write_register(REG_OP_MODE, MODE_LONG_RANGE_MODE | MODE_SLEEP);
+    uart_write_register(
+        REG_OP_MODE, 
+        MODE_LONG_RANGE_MODE | MODE_SLEEP
+    );
 }
 
 void set_tx_power(uint8_t level) {
