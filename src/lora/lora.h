@@ -99,10 +99,6 @@ void lora_set_frequency(uint32_t freq);
 
 void lora_switch_mode(LORA_MODE mode);
 
-void lora_stanby();
-
-void lora_sleep_mode();
-
 void set_tx_power(uint8_t level);
 
 void set_address(uint8_t add_tx, uint8_t add_rx);

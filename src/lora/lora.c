@@ -39,7 +39,7 @@ uint8_t lora_init_with_config(Config cnfg) {
 
     if(!lora_check_version()) 
         return 0;
-    lora_sleep();
+    lora_switch_mode(MODE_SLEEP);
 
     uart_transmit(cnfg.HEAD);
     uart_transmit(cnfg.ADDH);
@@ -48,7 +48,7 @@ uint8_t lora_init_with_config(Config cnfg) {
     uart_transmit(cnfg.CHAN);
     uart_transmit(cnfg.OPTIONS.options);
 
-    lora_stanby();
+    lora_switch_mode(MODE_NORMAL);
     return 1;
 }
 
@@ -95,20 +95,6 @@ void lora_switch_mode(LORA_MODE mode) {
     default:
         break;
     }
-}
-
-void lora_stanby() {
-    uart_write_register(
-        REG_OP_MODE, 
-        MODE_LONG_RANGE_MODE | MODE_STDBY
-    );
-}
-
-void lora_sleep() {
-    uart_write_register(
-        REG_OP_MODE, 
-        MODE_LONG_RANGE_MODE | MODE_SLEEP
-    );
 }
 
 void set_tx_power(uint8_t level) {
