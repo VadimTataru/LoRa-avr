@@ -9,6 +9,9 @@
 
 //Инициализация UART
 void uart_init(uint8_t con_speed) {
+	DDRE0 &= ~(1 << PE0);        // RX
+    DDRE0 |=  (1 << PE1);        // TX
+
 	UBRR0L = con_speed;
 	
 	//Разрешение на запись и чтение

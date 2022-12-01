@@ -30,6 +30,9 @@ uint8_t lora_init() {
 }
 
 uint8_t lora_init_with_config(Config cnfg) {
+
+    
+
     if(!lora_check_version()) 
         return 0;
     lora_sleep();
@@ -48,6 +51,13 @@ uint8_t lora_init_with_config(Config cnfg) {
 uint8_t lora_check_version() {
     uint8_t version = uart_read_register(REG_VERSION);
     return version == 0x12 ? 1 : 0;
+}
+
+uint8_t lora_get_saved_params() {
+    uart_transmit(0xC1);
+    uart_transmit(0xC1);
+    uart_transmit(0xC1);
+    return uart_receive();
 }
 
 void lora_set_frequency(uint32_t freq) {

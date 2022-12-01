@@ -13,8 +13,8 @@
 
 #define M0                          PE5
 #define M1                          PE6
-#define DDR_E		                DDRE
-#define PORT_E	                    PORTE
+#define DDR_MODE	                DDRE
+#define PORT_MODE                   PORTE
 
 //Registers
 #define REG_FIFO                    0x00
@@ -81,6 +81,8 @@ uint8_t lora_init();
 uint8_t lora_init_with_config(Config cnfg);
 
 uint8_t lora_check_version();
+
+uint8_t lora_get_saved_params();
 
 void lora_set_frequency(uint32_t freq);
 
