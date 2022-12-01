@@ -32,8 +32,8 @@
 
 //modes
 #define MODE_LONG_RANGE_MODE        0x80
-#define MODE_SLEEP                  0x00
-#define MODE_STDBY                  0x01
+//#define MODE_SLEEP                  0x00
+//#define MODE_STDBY                  0x01
 
 //PA config
 #define PA_BOOST                    0x80
@@ -96,6 +96,8 @@ uint8_t lora_check_version();
 uint8_t lora_get_saved_params();
 
 void lora_set_frequency(uint32_t freq);
+
+void lora_switch_mode(LORA_MODE mode);
 
 void lora_stanby();
 

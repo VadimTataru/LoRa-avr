@@ -44,9 +44,9 @@ uint8_t lora_init_with_config(Config cnfg) {
     uart_transmit(cnfg.HEAD);
     uart_transmit(cnfg.ADDH);
     uart_transmit(cnfg.ADDL);
-    uart_transmit(cnfg.SPED);
+    uart_transmit(cnfg.SPED.sped);
     uart_transmit(cnfg.CHAN);
-    uart_transmit(cnfg.OPTIONS);
+    uart_transmit(cnfg.OPTIONS.options);
 
     lora_stanby();
     return 1;
@@ -71,6 +71,30 @@ void lora_set_frequency(uint32_t freq) {
     uart_write_register(0x06, (uint8_t)(frf << 16));
     uart_write_register(0x07, (uint8_t)(frf << 8));
     uart_write_register(0x08, (uint8_t)(frf << 0));
+}
+
+void lora_switch_mode(LORA_MODE mode) {
+    switch (mode)
+    {
+    case MODE_NORMAL:
+        PORT_MODE &= ~(1 << M0);
+        PORT_MODE &= ~(1 << M1);
+        break;
+    case MODE_WAKE_UP:
+        PORT_MODE |= (1 << M0);
+        PORT_MODE &= ~(1 << M1);
+        break;
+    case MODE_POWER_SAVING:
+        PORT_MODE &= ~(1 << M0);
+        PORT_MODE |= (1 << M1);
+        break;
+    case MODE_SLEEP:
+        PORT_MODE |= (1 << M0);
+        PORT_MODE |= (1 << M1);
+        break;    
+    default:
+        break;
+    }
 }
 
 void lora_stanby() {
