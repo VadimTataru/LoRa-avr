@@ -31,7 +31,11 @@ uint8_t lora_init() {
 
 uint8_t lora_init_with_config(Config cnfg) {
 
-    
+    DDR_MODE |= (1 << M0);
+    DDR_MODE |= (1 << M1);
+
+    PORT_MODE &= ~(1 << M0);
+    PORT_MODE &= ~(1 << M1);
 
     if(!lora_check_version()) 
         return 0;
