@@ -75,13 +75,19 @@ uint8_t lora_get_saved_params() {
     return uart_receive();
 }
 
-void lora_set_frequency(uint32_t freq) {
-    #define F_XOSC  32000000UL
-    uint64_t frf = ((uint64_t)(freq) << 19) / F_XOSC;
+/*----------------------------------------------------------------------
+ Просмотр сохранённых параметров
+----------------------------------------------------------------------*/
+uint8_t lora_reset_config() {
+    lora_switch_mode(MODE_SLEEP);
 
-    uart_write_register(0x06, (uint8_t)(frf << 16));
-    uart_write_register(0x07, (uint8_t)(frf << 8));
-    uart_write_register(0x08, (uint8_t)(frf << 0));
+    //Переделать отправку данных
+    uart_transmit(0xC4);
+    uart_transmit(0xC4);
+    uart_transmit(0xC4);
+
+    lora_switch_mode(MODE_NORMAL);
+    return uart_receive();
 }
 
 /*----------------------------------------------------------------------
@@ -109,6 +115,15 @@ void lora_switch_mode(LORA_MODE mode) {
     default:
         break;
     }
+}
+
+void lora_set_frequency(uint32_t freq) {
+    #define F_XOSC  32000000UL
+    uint64_t frf = ((uint64_t)(freq) << 19) / F_XOSC;
+
+    uart_write_register(0x06, (uint8_t)(frf << 16));
+    uart_write_register(0x07, (uint8_t)(frf << 8));
+    uart_write_register(0x08, (uint8_t)(frf << 0));
 }
 
 void set_tx_power(uint8_t level) {
