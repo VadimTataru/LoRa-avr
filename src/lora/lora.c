@@ -12,21 +12,51 @@ uint8_t packetIndex = 0;
 
 uint8_t lora_init() {
 
+    //Стоит вынести в define
+    Config cnfg = {
+		SAVE_CNFG, 		//0xC0 - сохраняем настройки при отключении питания
+		0x00,
+		0x00,			//Адрес - 0000
+		0x1A,			//0x00011010
+		0x17,			//channel (410 + (value * 1M)) = 433MHz
+		0x44			//0x01000100
+	};
+
+    DDR_MODE |= (1 << M0);
+    DDR_MODE |= (1 << M1);
+
+    PORT_MODE &= ~(1 << M0);
+    PORT_MODE &= ~(1 << M1);
+
     if(!lora_check_version()) 
         return 0;
-    lora_sleep();
+    lora_switch_mode(MODE_SLEEP);
 
-    lora_set_frequency(433E6);
-    set_address(0, 0);
-    uart_write_register(
-        REG_LNA, 
-        uart_read_register(REG_LNA) | 0x03
-    );
-    uart_write_register(REG_MODEM_CONFIG_3, 0x04);
-    set_tx_power(17);
+    uart_transmit(cnfg.HEAD);
+    uart_transmit(cnfg.ADDH);
+    uart_transmit(cnfg.ADDL);
+    uart_transmit(cnfg.SPED.sped);
+    uart_transmit(cnfg.CHAN);
+    uart_transmit(cnfg.OPTIONS.options);
 
-    lora_stanby();
+    lora_switch_mode(MODE_NORMAL);
     return 1;
+
+    // if(!lora_check_version()) 
+    //     return 0;
+    // lora_sleep();
+
+    // lora_set_frequency(433E6);
+    // set_address(0, 0);
+    // uart_write_register(
+    //     REG_LNA, 
+    //     uart_read_register(REG_LNA) | 0x03
+    // );
+    // uart_write_register(REG_MODEM_CONFIG_3, 0x04);
+    // set_tx_power(17);
+
+    // lora_stanby();
+    // return 1;
 }
 
 /*----------------------------------------------------------------------
