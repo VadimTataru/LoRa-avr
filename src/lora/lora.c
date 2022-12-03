@@ -56,8 +56,18 @@ uint8_t lora_init_with_config(Config cnfg) {
 }
 
 uint8_t lora_check_version() {
-    uint8_t version = uart_read_register(REG_VERSION);
-    return version == 0x12 ? 1 : 0;
+    lora_switch_mode(MODE_SLEEP);
+
+    //Переделать отправку данных
+    uart_transmit(0xC3);
+    uart_transmit(0xC3);
+    uart_transmit(0xC3);
+
+    lora_switch_mode(MODE_NORMAL);
+    return uart_receive();
+
+    //uint8_t version = uart_read_register(REG_VERSION);
+    //return version == 0x12 ? 1 : 0;
 }
 
 /*----------------------------------------------------------------------
