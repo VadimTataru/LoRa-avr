@@ -65,7 +65,7 @@ uint8_t uart_receive_serial() {
 		message[i]=UDR0;
 		i++;
 	}
-	return UDR0;
+	return message;
 }
 
 uint8_t uart_write_register(uint8_t reg, uint8_t value) {

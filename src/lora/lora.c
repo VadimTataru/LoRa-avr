@@ -32,12 +32,14 @@ uint8_t lora_init() {
         return 0;
     lora_switch_mode(MODE_SLEEP);
 
-    uart_transmit(cnfg.HEAD);
-    uart_transmit(cnfg.ADDH);
-    uart_transmit(cnfg.ADDL);
-    uart_transmit(cnfg.SPED.sped);
-    uart_transmit(cnfg.CHAN);
-    uart_transmit(cnfg.OPTIONS.options);
+    uart_transmit_serial(cnfg.raw);
+
+    // uart_transmit(cnfg.HEAD);
+    // uart_transmit(cnfg.ADDH);
+    // uart_transmit(cnfg.ADDL);
+    // uart_transmit(cnfg.SPED.sped);
+    // uart_transmit(cnfg.CHAN);
+    // uart_transmit(cnfg.OPTIONS.options);
 
     lora_switch_mode(MODE_NORMAL);
     return 1;
@@ -74,12 +76,14 @@ uint8_t lora_init_with_config(Config cnfg) {
         return 0;
     lora_switch_mode(MODE_SLEEP);
 
-    uart_transmit(cnfg.HEAD);
-    uart_transmit(cnfg.ADDH);
-    uart_transmit(cnfg.ADDL);
-    uart_transmit(cnfg.SPED.sped);
-    uart_transmit(cnfg.CHAN);
-    uart_transmit(cnfg.OPTIONS.options);
+    uart_transmit_serial(cnfg.raw);
+
+    // uart_transmit(cnfg.HEAD);
+    // uart_transmit(cnfg.ADDH);
+    // uart_transmit(cnfg.ADDL);
+    // uart_transmit(cnfg.SPED.sped);
+    // uart_transmit(cnfg.CHAN);
+    // uart_transmit(cnfg.OPTIONS.options);
 
     lora_switch_mode(MODE_NORMAL);
     return 1;
@@ -94,7 +98,7 @@ uint8_t lora_check_version() {
     uart_transmit(0xC3);
 
     lora_switch_mode(MODE_NORMAL);
-    return uart_receive();
+    return uart_receive_serial();
 
     //uint8_t version = uart_read_register(REG_VERSION);
     //return version == 0x12 ? 1 : 0;
