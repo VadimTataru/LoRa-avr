@@ -91,11 +91,14 @@ uint8_t lora_init_with_config(Config cnfg) {
 
 uint8_t lora_check_version() {
     lora_switch_mode(MODE_SLEEP);
-
+    
+    uint8_t *command[3] = CHECK_VERSION_MESSAGE;
     //Переделать отправку данных
-    uart_transmit(0xC3);
-    uart_transmit(0xC3);
-    uart_transmit(0xC3);
+    uart_transmit_serial(command);
+
+    // uart_transmit(0xC3);
+    // uart_transmit(0xC3);
+    // uart_transmit(0xC3);
 
     lora_switch_mode(MODE_NORMAL);
     return uart_receive_serial();
@@ -110,13 +113,17 @@ uint8_t lora_check_version() {
 uint8_t lora_get_saved_params() {
     lora_switch_mode(MODE_SLEEP);
 
+    uint8_t *command[3] = SAVED_PARAMS_MESSAGE;
     //Переделать отправку данных
-    uart_transmit(0xC1);
-    uart_transmit(0xC1);
-    uart_transmit(0xC1);
+    uart_transmit_serial(command);
+
+    // //Переделать отправку данных
+    // uart_transmit(0xC1);
+    // uart_transmit(0xC1);
+    // uart_transmit(0xC1);
 
     lora_switch_mode(MODE_NORMAL);
-    return uart_receive();
+    return uart_receive_serial();
 }
 
 /*----------------------------------------------------------------------
@@ -125,13 +132,17 @@ uint8_t lora_get_saved_params() {
 uint8_t lora_reset_config() {
     lora_switch_mode(MODE_SLEEP);
 
+    uint8_t *command[3] = RESET_CONFIG_MESSAGE;
     //Переделать отправку данных
-    uart_transmit(0xC4);
-    uart_transmit(0xC4);
-    uart_transmit(0xC4);
+    uart_transmit_serial(command);
+
+    // //Переделать отправку данных
+    // uart_transmit(0xC4);
+    // uart_transmit(0xC4);
+    // uart_transmit(0xC4);
 
     lora_switch_mode(MODE_NORMAL);
-    return uart_receive();
+    return uart_receive_serial();
 }
 
 /*----------------------------------------------------------------------
