@@ -54,6 +54,20 @@ void uart_transmit_serial(uint8_t *data) {
 	}
 }
 
+/*----------------------------------------------------------------------
+ Получение сообщения
+----------------------------------------------------------------------*/
+uint8_t uart_receive_serial() {
+	uint8_t *message[MAX_MESSAGE_LENGTH];
+	i=0;
+	while (message[i-1] != MESSAGE_END_FLAG && i < MAX_MESSAGE_LENGTH) {
+		while(!(UCSR0A & (1<<RXC0)));
+		message[i]=UDR0;
+		i++;
+	}
+	return UDR0;
+}
+
 uint8_t uart_write_register(uint8_t reg, uint8_t value) {
 	uart_transmit(reg | 0x80);
 	uart_transmit(value);

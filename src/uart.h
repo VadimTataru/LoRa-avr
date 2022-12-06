@@ -13,13 +13,16 @@
 /*----------------------------------------------------------------------
  Определение порта и регистров для дальнейшей работы с uart
 ----------------------------------------------------------------------*/
-#define  TX0		PE1
-#define  DDR_TX		DDRE
-#define  PORT_TX	PORTE 
+#define  TX0		                    PE1
+#define  DDR_TX		                    DDRE
+#define  PORT_TX	                    PORTE 
 
-#define	 RX0		PE0
-#define  DDR_RX		DDRE
-#define  PORT_RX	PORTE
+#define	 RX0		                    PE0
+#define  DDR_RX		                    DDRE
+#define  PORT_RX	                    PORTE
+
+#define MAX_MESSAGE_LENGTH              255
+#define MESSAGE_END_FLAG                ':'
 
 /*----------------------------------------------------------------------
  Инициализация uart
@@ -40,6 +43,11 @@ uint8_t uart_receive();
  Отправка сообщения
 ----------------------------------------------------------------------*/
 void uart_transmit_serial(uint8_t *data);
+
+/*----------------------------------------------------------------------
+ Получение сообщения
+----------------------------------------------------------------------*/
+uint8_t uart_receive_serial();
 
 uint8_t uart_write_register(uint8_t reg, uint8_t value);
 
