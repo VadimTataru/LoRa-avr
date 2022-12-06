@@ -44,6 +44,16 @@ uint8_t uart_receive() {
 	return UDR0;
 }
 
+/*----------------------------------------------------------------------
+ Отправка сообщения
+----------------------------------------------------------------------*/
+void uart_transmitSerial(uint8_t *data) {
+	for(int i = 0; i < sizeof(data); i++) {
+		while(!(UCSR0A & (1<<UDRE0)));
+		UDR0 = data[i];
+	}
+}
+
 uint8_t uart_write_register(uint8_t reg, uint8_t value) {
 	uart_transmit(reg | 0x80);
 	uart_transmit(value);

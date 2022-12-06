@@ -36,6 +36,11 @@ void uart_transmit(uint8_t data);
 ----------------------------------------------------------------------*/
 uint8_t uart_receive();
 
+/*----------------------------------------------------------------------
+ Отправка сообщения
+----------------------------------------------------------------------*/
+void uart_transmitSerial(uint8_t *data);
+
 uint8_t uart_write_register(uint8_t reg, uint8_t value);
 
 uint8_t uart_read_register(uint8_t reg);
