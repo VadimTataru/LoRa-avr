@@ -1,0 +1,24 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"command": "make",
+			"label": "build",
+			"args": ["all"]
+		},
+		{
+			"type":"shell",
+			"command": "make",
+			"label": "flush",
+			"args": ["flush"]
+		},
+		{
+			"type": "shell",
+			"label": "build and flush",
+			"group": "build",
+			"dependsOn": ["build", "flush"],
+			"dependsOrder": "sequence"
+		}
+	]
+}
