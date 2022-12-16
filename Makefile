@@ -1,17 +1,17 @@
-APP_NAME := firmware
+APP_NAME := lora_avr
 
 AVRGCC := avr-gcc
 AVROBJCOPY := avr-objcopy
-AVRDUDE := E:\avr\avr-gcc-12.1.0-x64-windows\bin\avrdude
+AVRDUDE := avrdude
 
 MMCU := atmega128rfa1
 
-FLAGS := -Os -Wall -std=gnull -mmcu=$(MMCU)
+FLAGS := -Os -Wall -std=gnu11 -mmcu=$(MMCU)
 
 MMCU_PROG := m128rfa1
 PROGRAMMER := usbasp
 
-source_dir :=		.
+source_dir := .
 source_files :=		$(wildcard $(addsuffix /*.c, $(source_dir) ) )
 
 .PHONY: all clean

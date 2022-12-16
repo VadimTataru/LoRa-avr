@@ -29,20 +29,22 @@ int main(void)
 	};
 
 	if(lora_init_with_config(cnfg) == 1) {
-		while(1) {
+		while (1) {
 			uart_transmit('H');
-			_delay(1000);
+			_delay_ms(1000);
 			uart_transmit('E');
-			_delay(1000);
+			_delay_ms(1000);
 			uart_transmit('L');
-			_delay(1000);
+			_delay_ms(1000);
 			uart_transmit('L');
-			_delay(1000);
+			_delay_ms(1000);
 			uart_transmit('O');
-			_delay(1000);
-		}
+			_delay_ms(1000);
+		};
 	} else {
-		while (1) {/*error*/}
+		while (1) {
+			/*error*/
+		};
 	}
 
 	return 0;
