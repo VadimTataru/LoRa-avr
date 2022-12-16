@@ -53,7 +53,7 @@
 /*----------------------------------------------------------------------
  Режимы работы LoRa, приведённые в документации
 ----------------------------------------------------------------------*/
-typedef enum {
+typedef enum lora_mode {
     MODE_NORMAL,
     MODE_WAKE_UP,
     MODE_POWER_SAVING,
@@ -66,7 +66,7 @@ typedef enum {
 enum HEAD_TYPE {
     SAVE_CNFG = 0xC0,
     UNSAVE_CNFG = 0xC2
-}
+};
 
 /*----------------------------------------------------------------------
  байт SPED
@@ -102,7 +102,6 @@ typedef struct
     enum HEAD_TYPE HEAD;
     uint8_t ADDH;
     uint8_t ADDL;
-    Speed SPED;
     Speed SPED;
     uint8_t CHAN;
     Option OPTION;
@@ -149,7 +148,7 @@ void set_tx_power(uint8_t level);
 
 void set_address(uint8_t add_tx, uint8_t add_rx);
 
-uint8_t writeMessage(const char *buffer, uint8_t size)
+uint8_t writeMessage(const char *buffer, uint8_t size);
 
 int8_t readMessage();
 
