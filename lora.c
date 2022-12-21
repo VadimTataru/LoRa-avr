@@ -43,31 +43,8 @@ uint8_t lora_init() {
 
     uart_transmit_serial(config_array);
 
-    // uart_transmit(cnfg.HEAD);
-    // uart_transmit(cnfg.ADDH);
-    // uart_transmit(cnfg.ADDL);
-    // uart_transmit(cnfg.SPED.sped);
-    // uart_transmit(cnfg.CHAN);
-    // uart_transmit(cnfg.OPTIONS.options);
-
     lora_switch_mode(MODE_NORMAL);
     return 1;
-
-    // if(!lora_check_version()) 
-    //     return 0;
-    // lora_sleep();
-
-    // lora_set_frequency(433E6);
-    // set_address(0, 0);
-    // uart_write_register(
-    //     REG_LNA, 
-    //     uart_read_register(REG_LNA) | 0x03
-    // );
-    // uart_write_register(REG_MODEM_CONFIG_3, 0x04);
-    // set_tx_power(17);
-
-    // lora_stanby();
-    // return 1;
 }
 
 /*----------------------------------------------------------------------
@@ -95,14 +72,6 @@ uint8_t lora_init_with_config(Config cnfg) {
     };
 
     uart_transmit_serial(config_array);
-
-    // uart_transmit(cnfg.HEAD);
-    // uart_transmit(cnfg.ADDH);
-    // uart_transmit(cnfg.ADDL);
-    // uart_transmit(cnfg.SPED.sped);
-    // uart_transmit(cnfg.CHAN);
-    // uart_transmit(cnfg.OPTIONS.options);
-
     lora_switch_mode(MODE_NORMAL);
     return 1;
 }
@@ -114,15 +83,8 @@ uint8_t lora_check_version() {
     //Переделать отправку данных
     uart_transmit_serial(command);
 
-    // uart_transmit(0xC3);
-    // uart_transmit(0xC3);
-    // uart_transmit(0xC3);
-
     lora_switch_mode(MODE_NORMAL);
     return uart_receive_serial();
-
-    //uint8_t version = uart_read_register(REG_VERSION);
-    //return version == 0x12 ? 1 : 0;
 }
 
 /*----------------------------------------------------------------------
@@ -134,11 +96,6 @@ uint8_t lora_get_saved_params() {
     uint8_t *command[3] = SAVED_PARAMS_MESSAGE;
     //Переделать отправку данных
     uart_transmit_serial(command);
-
-    // //Переделать отправку данных
-    // uart_transmit(0xC1);
-    // uart_transmit(0xC1);
-    // uart_transmit(0xC1);
 
     lora_switch_mode(MODE_NORMAL);
     return uart_receive_serial();
@@ -153,11 +110,6 @@ uint8_t lora_reset_config() {
     uint8_t *command[3] = RESET_CONFIG_MESSAGE;
     //Переделать отправку данных
     uart_transmit_serial(command);
-
-    // //Переделать отправку данных
-    // uart_transmit(0xC4);
-    // uart_transmit(0xC4);
-    // uart_transmit(0xC4);
 
     lora_switch_mode(MODE_NORMAL);
     return uart_receive_serial();
