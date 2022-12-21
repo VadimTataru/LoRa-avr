@@ -32,7 +32,16 @@ uint8_t lora_init() {
         return 0;
     lora_switch_mode(MODE_SLEEP);
 
-    uart_transmit_serial(cnfg.raw);
+    uint8_t config_array[] = {
+        cnfg.HEAD, 
+        cnfg.ADDH,
+        cnfg.ADDL,
+        cnfg.SPED.sped,
+        cnfg.CHAN,
+        cnfg.OPTION.options
+    };
+
+    uart_transmit_serial(config_array);
 
     // uart_transmit(cnfg.HEAD);
     // uart_transmit(cnfg.ADDH);
@@ -76,7 +85,16 @@ uint8_t lora_init_with_config(Config cnfg) {
         return 0;
     lora_switch_mode(MODE_SLEEP);
 
-    uart_transmit_serial(cnfg.raw);
+    uint8_t config_array[] = {
+        cnfg.HEAD, 
+        cnfg.ADDH,
+        cnfg.ADDL,
+        cnfg.SPED.sped,
+        cnfg.CHAN,
+        cnfg.OPTION.options
+    };
+
+    uart_transmit_serial(config_array);
 
     // uart_transmit(cnfg.HEAD);
     // uart_transmit(cnfg.ADDH);

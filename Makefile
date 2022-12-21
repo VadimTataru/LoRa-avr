@@ -31,5 +31,10 @@ flush:
 fuse:
 	$(AVRDUDE) -c $(PROGRAMMER) -P usb -p $(MMCU_PROG) -F -U lfuse:w:0xbf:m
 	$(AVRDUDE) -c $(PROGRAMMER) -P usb -p $(MMCU_PROG) -F -U lfuse:w:0x55:m
+ifeq ($(OS),Windows_NT)
+clean:
+	del /Q /F *.o *.hex
+else
 clean:
 	rm -f ./*.o ./*hex
+endif

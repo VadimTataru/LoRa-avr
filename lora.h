@@ -105,7 +105,6 @@ typedef struct
     Speed SPED;
     uint8_t CHAN;
     Option OPTION;
-    uint8_t raw;
 } Config;
 
 /*----------------------------------------------------------------------
