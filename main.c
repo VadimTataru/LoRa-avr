@@ -18,14 +18,28 @@ int main(void)
 {
 	uart_init(MYUBRR);
 
+	Speed sped = {
+		0b010,
+		0b011,
+		0b00
+	};
+
+	Option option = {
+		0b00,
+		0b1,
+		0b000,
+		0b1,
+		0b0
+	};
+
 	//Default config
 	Config cnfg = {
-		SAVE_CNFG, 		//0xC0 - сохраняем настройки при отключении питания
+		SAVE_CNFG, 				//0xC0 - сохраняем настройки при отключении питания
 		0x00,
-		0x00,			//Адрес - 0000
-		0x1A,			//0x00011010
-		0x17,			//channel (410 + (value * 1M)) = 433MHz
-		0x44			//0x01000100
+		0x00,					//Адрес - 0000
+		sped.sped,				//0x00011010 0x1A
+		0x17,					//channel (410 + (value * 1M)) = 433MHz
+		option.options			//0x01000100 0x44
 	};
 
 	if(lora_init_with_config(cnfg) == 1) {
