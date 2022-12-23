@@ -17,9 +17,21 @@ uint8_t lora_init() {
 		SAVE_CNFG, 		//0xC0 - сохраняем настройки при отключении питания
 		0x00,
 		0x00,			//Адрес - 0000
-		0x1A,			//0x00011010
+        {
+            {0b000,
+            0b110,
+            0b10}
+        },			//0x00011010
 		0x17,			//channel (410 + (value * 1M)) = 433MHz
-		0x44			//0x01000100
+        {
+            {
+                0b01,
+                0b0,
+                0b001,
+                0b0,
+                0b0
+            }
+        }			//0x01000100
 	};
 
     DDR_MODE |= (1 << M0);
@@ -179,7 +191,7 @@ uint8_t writeMessage(const char *buffer, uint8_t size) {
 }
 
 int8_t available() {
-    return (uart_read_register(REG_RX_NB_BYTES) - packetIndex);
+    return uart_read_register(REG_RX_NB_BYTES) - packetIndex;
 }
 
 int8_t readMessage() {
