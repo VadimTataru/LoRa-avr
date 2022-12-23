@@ -22,7 +22,7 @@ void uart_init(uint8_t con_speed) {
 	UCSR0B = (1<<TXEN0) | (1<<RXEN0);
 	
 	//Установка режима: 8 бит, 2 стоп бита
-	UCSR0C = 	(1 << USBS0)   //0 - one stop bit, 1 - two stop bits
+	UCSR0C = 	(0 << USBS0)   //0 - one stop bit, 1 - two stop bits
            	  | (0 << UCSZ02)  | (1 << UCSZ01) | (1 << UCSZ00);  //8 bit
 }
 
