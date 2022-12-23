@@ -19,17 +19,21 @@ int main(void)
 	uart_init(MYUBRR);
 
 	Speed sped = {
-		0b010,
-		0b011,
-		0b00
+		{
+			0b010,
+			0b011,
+			0b00
+		}
 	};
 
 	Option option = {
-		0b00,
-		0b1,
-		0b000,
-		0b1,
-		0b0
+		{
+			0b00,
+			0b1,
+			0b000,
+			0b1,
+			0b0
+		}
 	};
 
 	//Default config
