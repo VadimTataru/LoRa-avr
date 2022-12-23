@@ -78,7 +78,7 @@ uint8_t lora_init_with_config(Config cnfg) {
 uint8_t lora_check_version() {
     lora_switch_mode(MODE_SLEEP);
     
-    uint8_t *command[3] = CHECK_VERSION_MESSAGE;
+    uint8_t command[3] = CHECK_VERSION_MESSAGE;
     uint8_t params[4];
     //Переделать отправку данных
     uart_transmit_serial(command);
@@ -107,7 +107,7 @@ uint8_t lora_get_saved_params() {
 uint8_t lora_reset_config() {
     lora_switch_mode(MODE_SLEEP);
 
-    uint8_t *command[3] = RESET_CONFIG_MESSAGE;
+    uint8_t command[3] = RESET_CONFIG_MESSAGE;
     //Переделать отправку данных
     uart_transmit_serial(command);
 
