@@ -47,7 +47,7 @@ void uart_transmit_serial(uint8_t *data);
 /*----------------------------------------------------------------------
  Получение сообщения
 ----------------------------------------------------------------------*/
-uint8_t uart_receive_serial();
+uint8_t uart_receive_serial(uint8_t expected_lng, uint8_t container[]);
 
 uint8_t uart_write_register(uint8_t reg, uint8_t value);
 

@@ -58,8 +58,7 @@ uint8_t lora_init_with_config(Config cnfg) {
     PORT_MODE &= ~(1 << M0);
     PORT_MODE &= ~(1 << M1);
 
-    if(!lora_check_version()) 
-        return 0;
+    //if(!lora_check_version()) return 0; Проверка версии возвращает массив, нам нужнен лишь один элемент
     lora_switch_mode(MODE_SLEEP);
 
     uint8_t config_array[] = {
@@ -80,11 +79,12 @@ uint8_t lora_check_version() {
     lora_switch_mode(MODE_SLEEP);
     
     uint8_t *command[3] = CHECK_VERSION_MESSAGE;
+    uint8_t params[4];
     //Переделать отправку данных
     uart_transmit_serial(command);
 
     lora_switch_mode(MODE_NORMAL);
-    return uart_receive_serial();
+    return uart_receive_serial(4, params);
 }
 
 /*----------------------------------------------------------------------
@@ -92,13 +92,13 @@ uint8_t lora_check_version() {
 ----------------------------------------------------------------------*/
 uint8_t lora_get_saved_params() {
     lora_switch_mode(MODE_SLEEP);
-
-    uint8_t *command[3] = SAVED_PARAMS_MESSAGE;
+    uint8_t command[3] = SAVED_PARAMS_MESSAGE;
+    uint8_t params[6];
     //Переделать отправку данных
     uart_transmit_serial(command);
 
     lora_switch_mode(MODE_NORMAL);
-    return uart_receive_serial();
+    return uart_receive_serial(6, params);
 }
 
 /*----------------------------------------------------------------------
@@ -112,7 +112,9 @@ uint8_t lora_reset_config() {
     uart_transmit_serial(command);
 
     lora_switch_mode(MODE_NORMAL);
-    return uart_receive_serial();
+
+    //TODO: Возвращать адевкатное значение
+    return 1;
 }
 
 /*----------------------------------------------------------------------
