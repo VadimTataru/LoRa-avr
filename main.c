@@ -37,9 +37,9 @@ int main(void)
 		SAVE_CNFG, 				//0xC0 - сохраняем настройки при отключении питания
 		0x00,
 		0x00,					//Адрес - 0000
-		sped.sped,				//0x00011010 0x1A
+		sped,					//0x00011010 0x1A
 		0x17,					//channel (410 + (value * 1M)) = 433MHz
-		option.options			//0x01000100 0x44
+		option					//0x01000100 0x44
 	};
 
 	if(lora_init_with_config(cnfg) == 1) {
