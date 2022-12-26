@@ -191,12 +191,14 @@ uint8_t writeMessage(const char *buffer, uint8_t size) {
 }
 
 int8_t available() {
-    return uart_read_register(REG_RX_NB_BYTES) - packetIndex;
+    // сужающее преобразование(uint8_t -> int8_t)
+    return (int8_t)(uart_read_register(REG_RX_NB_BYTES) - packetIndex);
 }
 
 int8_t readMessage() {
     if (!available())
         return -1;
     packetIndex++;
-    return uart_read_register(REG_FIFO);
+    // сужающее преобразование(uint8_t -> int8_t)
+    return (int8_t)uart_read_register(REG_FIFO);
 }

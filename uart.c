@@ -47,8 +47,8 @@ uint8_t uart_receive() {
 /*----------------------------------------------------------------------
  Отправка сообщения
 ----------------------------------------------------------------------*/
-void uart_transmit_serial(uint8_t *data) {
-	for(int i = 0; i < sizeof(data); i++) {
+void uart_transmit_serial(const uint8_t *data) {
+	for(unsigned int i = 0; i < sizeof(data); i++) {
 		while(!(UCSR0A & (1<<UDRE0)));
 		UDR0 = data[i];
 	}
@@ -68,6 +68,7 @@ uint8_t uart_receive_serial(uint8_t expected_lng, uint8_t container[]) {
 		message[i]=UDR0;
 		i++;
 	}
+    // FIXME: в сигнатуре функции возвращается uint8_t, а возвращается массив uint8_t
 	return message;
 }
 
