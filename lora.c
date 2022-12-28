@@ -10,6 +10,12 @@
 
 uint8_t packetIndex = 0;
 
+/*----------------------------------------------------------------------
+ C3 32 xx yy; 
+ 32 - модель модуля (E32), xx - номер версии радиомодуля, yy - относится к другим функциям модуля
+----------------------------------------------------------------------*/
+uint8_t lora_version_data[4];
+
 uint8_t lora_init() {
 
     //Стоит вынести в define
@@ -18,9 +24,11 @@ uint8_t lora_init() {
 		0x00,
 		0x00,			//Адрес - 0000
         {
-            {0b000,
-            0b110,
-            0b10}
+            {
+                0b000,
+                0b110,
+                0b10
+            }
         },			//0x00011010
 		0x17,			//channel (410 + (value * 1M)) = 433MHz
         {
@@ -87,16 +95,19 @@ uint8_t lora_init_with_config(Config cnfg) {
     return 1;
 }
 
+/*----------------------------------------------------------------------
+ Версия радиомодуля
+----------------------------------------------------------------------*/
 uint8_t lora_check_version() {
     lora_switch_mode(MODE_SLEEP);
     
-    uint8_t command[3] = CHECK_VERSION_MESSAGE;
-    uint8_t params[4];
+    uint8_t command[3] = CHECK_VERSION_MESSAGE; 
     //Переделать отправку данных
     uart_transmit_serial(command);
-
+    uart_receive_serial(4, lora_version_data);
     lora_switch_mode(MODE_NORMAL);
-    return uart_receive_serial(4, params);
+    
+    return lora_version_data[2];
 }
 
 /*----------------------------------------------------------------------

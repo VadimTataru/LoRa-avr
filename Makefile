@@ -33,7 +33,8 @@ fuse:
 	$(AVRDUDE) -c $(PROGRAMMER) -P usb -p $(MMCU_PROG) -F -U lfuse:w:0x55:m
 ifeq ($(OS),Windows_NT)
 clean:
-	cmd //C del //Q //F *.o *.hex
+	del /Q /F *.o *.hex
+#	cmd //C del //Q //F *.o *.hex
 else
 clean:
 	rm -f ./*.o ./*hex
