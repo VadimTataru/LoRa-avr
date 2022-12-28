@@ -78,7 +78,9 @@ uint8_t lora_init_with_config(Config cnfg) {
     PORT_MODE &= ~(1 << M0);
     PORT_MODE &= ~(1 << M1);
 
-    //if(!lora_check_version()) return 0; Проверка версии возвращает массив, нам нужнен лишь один элемент
+    if(!lora_check_version()) 
+        return 0;
+
     lora_switch_mode(MODE_SLEEP);
 
     uint8_t config_array[] = {
