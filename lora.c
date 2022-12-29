@@ -222,14 +222,23 @@ void set_address(uint8_t add_tx, uint8_t add_rx) {
 }
 
 uint8_t writeMessage(const char *buffer, uint8_t size) {
-    uint16_t currentLength = uart_read_register(REG_PAYLOAD_LENGTH);
-    if ((currentLength + size) > MAX_PKT_LENGTH)                // check size
-        size = MAX_PKT_LENGTH - currentLength;
-    for (uint8_t i=0; i<size; i++) {                         // write data
-        uart_write_register(REG_FIFO, buffer[i]);
-    }
-    uart_write_register(REG_PAYLOAD_LENGTH, currentLength + size);    // update length
+    //TODO: Добавить обработку преамбул и Header
+    if(size = 0) return 0;
+    lora_switch_mode(MODE_NORMAL);
+
+    uart_transmit_serial(buffer);
+
+    //FixMe: возвращать адекватное значение; отказаться от size?
     return size;
+
+    // uint16_t currentLength = uart_read_register(REG_PAYLOAD_LENGTH);
+    // if ((currentLength + size) > MAX_PKT_LENGTH)                // check size
+    //     size = MAX_PKT_LENGTH - currentLength;
+    // for (uint8_t i=0; i<size; i++) {                         // write data
+    //     uart_write_register(REG_FIFO, buffer[i]);
+    // }
+    // uart_write_register(REG_PAYLOAD_LENGTH, currentLength + size);    // update length
+    // return size;
 }
 
 int8_t available() {
