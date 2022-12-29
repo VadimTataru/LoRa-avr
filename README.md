@@ -1,3 +1,5 @@
 # LoRa-avr
 
-<img src="./img/test_model.jpeg" title="test_model" width="300"/>
+<p align="center">
+<img src="./img/test_model.jpg" title="test_model" width="300"/>
+</p>
