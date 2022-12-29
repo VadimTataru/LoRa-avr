@@ -142,6 +142,35 @@ uint8_t lora_reset_config() {
     return 1;
 }
 
+uint8_t set_transmition_mode(TRNSM_MODE mode) {
+    uint8_t params[6] = lora_get_saved_params();
+
+    Option options = {
+        {
+
+        },
+        params[5]
+    };
+
+    switch (mode)
+    {
+    case FIXED_TRANSM:
+        options.bits.fxed_transmittion = 0b1;
+        break;
+    
+    case TRANSPARENT_TRANSM:
+        options.bits.fxed_transmittion = 0b0;
+        break;
+    }
+    params[5] = options.options;
+    lora_switch_mode(MODE_SLEEP);
+    uart_transmit_serial(params);
+    lora_switch_mode(MODE_NORMAL);
+
+    //Возвращать адекватное значение
+    return 1;
+}
+
 /*----------------------------------------------------------------------
  Переключение между режимами работы радиомодуля
 ----------------------------------------------------------------------*/
