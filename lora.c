@@ -221,7 +221,7 @@ void set_address(uint8_t add_tx, uint8_t add_rx) {
     uart_write_register(REG_FIFO_RX_BASE_ADDR, add_rx);
 }
 
-uint8_t writeMessage(const char *buffer, uint8_t size) {
+uint8_t sendMessage(const char *buffer, uint8_t size) {
     //TODO: Добавить обработку преамбул и Header
     if(size = 0) return 0;
     lora_switch_mode(MODE_NORMAL);
@@ -239,6 +239,10 @@ uint8_t writeMessage(const char *buffer, uint8_t size) {
     // }
     // uart_write_register(REG_PAYLOAD_LENGTH, currentLength + size);    // update length
     // return size;
+}
+
+uint8_t sendMessageOnAdress(FixedAdrConfig address, const char *buffer, uint8_t size) {
+    
 }
 
 int8_t available() {
