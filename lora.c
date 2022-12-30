@@ -143,7 +143,7 @@ uint8_t lora_reset_config() {
 }
 
 uint8_t set_transmition_mode(TRNSM_MODE mode) {
-    uint8_t params[6] = lora_get_saved_params();
+    uint8_t * params[6] = lora_get_saved_params();
 
     Option options = {
         {
@@ -223,7 +223,7 @@ void set_address(uint8_t add_tx, uint8_t add_rx) {
 
 uint8_t sendMessage(const char *buffer, uint8_t size) {
     //TODO: Добавить обработку преамбул и Header
-    if(size = 0) return 0;
+    if(size == 0) return 0;
     lora_switch_mode(MODE_NORMAL);
 
     uart_transmit_serial(buffer);
@@ -242,7 +242,15 @@ uint8_t sendMessage(const char *buffer, uint8_t size) {
 }
 
 uint8_t sendMessageOnAdress(FixedAdrConfig address, const char *buffer, uint8_t size) {
-    
+    if(size == 0) return 0;
+    lora_switch_mode(MODE_NORMAL);
+
+    uart_transmit(address.ADDH);
+    uart_transmit(address.ADDL);
+    uart_transmit(address.CHAN);
+    uart_transmit_serial(buffer);
+
+    return size;
 }
 
 int8_t available() {
