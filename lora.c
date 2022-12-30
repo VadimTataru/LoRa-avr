@@ -9,7 +9,7 @@
 #include "uart.h"
 
 uint8_t packetIndex = 0;
-
+unsigned char divider = ';';
 /*----------------------------------------------------------------------
  C3 32 xx yy; 
  32 - модель модуля (E32), xx - номер версии радиомодуля, yy - относится к другим функциям модуля
@@ -221,6 +221,9 @@ void set_address(uint8_t add_tx, uint8_t add_rx) {
     uart_write_register(REG_FIFO_RX_BASE_ADDR, add_rx);
 }
 
+/*----------------------------------------------------------------------
+ Отправка сообщения по радиомодулю
+----------------------------------------------------------------------*/
 uint8_t sendMessage(const char *buffer, uint8_t size) {
     //TODO: Добавить обработку преамбул и Header
     if(size == 0) return 0;
@@ -241,6 +244,9 @@ uint8_t sendMessage(const char *buffer, uint8_t size) {
     // return size;
 }
 
+/*----------------------------------------------------------------------
+ Отправка сообщения на фиксированный адрес по радиомодулю
+----------------------------------------------------------------------*/
 uint8_t sendMessageOnAdress(FixedAdrConfig address, const char *buffer, uint8_t size) {
     if(size == 0) return 0;
     lora_switch_mode(MODE_NORMAL);
@@ -264,4 +270,30 @@ int8_t readMessage() {
     packetIndex++;
     // сужающее преобразование(uint8_t -> int8_t)
     return (int8_t)uart_read_register(REG_FIFO);
+}
+
+unsigned char * getMessage() {
+    uint8_t counter = 0;
+    uint8_t i = 0;
+    unsigned char * result;
+    unsigned char * dividers;
+    while (counter < 3)
+    {
+        unsigned char data_byte = uart_receive();
+        if(data_byte == divider) {
+            dividers[counter] = data_byte;
+            counter++;            
+        } else {
+            if(sizeof(dividers) > 0) {
+                result = dividers;
+                i = sizeof(dividers);
+                result[i] = data_byte;
+                i++;
+                //удалить dividers
+            }
+                
+        }
+            
+    }
+    
 }

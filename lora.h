@@ -161,21 +161,25 @@ uint8_t set_transmition_mode(TRNSM_MODE mode);
 ----------------------------------------------------------------------*/
 void lora_switch_mode(LORA_MODE mode);
 
-
-/*----------------------------------------------------------------------
- 
-----------------------------------------------------------------------*/
 void lora_set_frequency(uint32_t freq);
 
 void set_tx_power(uint8_t level);
 
 void set_address(uint8_t add_tx, uint8_t add_rx);
 
+/*----------------------------------------------------------------------
+ Отправка сообщения по радиомодулю
+----------------------------------------------------------------------*/
 uint8_t sendMessage(const char *buffer, uint8_t size);
 
+/*----------------------------------------------------------------------
+ Отправка сообщения на фиксированный адрес по радиомодулю
+----------------------------------------------------------------------*/
 uint8_t sendMessageOnAdress(FixedAdrConfig address, const char *buffer, uint8_t size);
 
 int8_t readMessage();
+
+unsigned char * getMessage();
 
 
 #endif /* LORA_H_ */
