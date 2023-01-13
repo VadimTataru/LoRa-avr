@@ -34,6 +34,7 @@ fuse:
 ifeq ($(OS),Windows_NT)
 clean:
 	del /Q /F *.o *.hex
+#	cmd //C del //Q //F *.o *.hex
 else
 clean:
 	rm -f ./*.o ./*hex
