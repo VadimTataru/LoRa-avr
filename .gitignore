@@ -1,10 +1,17 @@
 .DS_Store
 <<<<<<< HEAD
+<<<<<<< HEAD
 .idea
 =======
+=======
+>>>>>>> 5c66dd801eb1dd7a4a16e521fa23f903f0562ae3
 
 .idea/
 
 *.o
+<<<<<<< HEAD
+*.hex
+>>>>>>> 5c66dd801eb1dd7a4a16e521fa23f903f0562ae3
+=======
 *.hex
 >>>>>>> 5c66dd801eb1dd7a4a16e521fa23f903f0562ae3

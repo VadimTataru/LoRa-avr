@@ -7,7 +7,7 @@
 
 #define F_CPU 16000000UL
 #define BAUD 9600
-#define UBRR F_CPU/16/BAUD-1
+#define MYUBRR F_CPU/16/BAUD-1
 
 #include <avr/io.h>
 #include <util/delay.h>
@@ -15,9 +15,14 @@
 #include "lora.h"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 int main(void)
 {
-	uart_init(UBRR);
+	uart_init(MYUBRR);
+=======
+int main(void) {
+    uart_init(MYUBRR);
+>>>>>>> 5c66dd801eb1dd7a4a16e521fa23f903f0562ae3
 =======
 int main(void) {
     uart_init(MYUBRR);
