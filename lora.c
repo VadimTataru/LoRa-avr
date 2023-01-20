@@ -52,16 +52,18 @@ uint8_t lora_init() {
         return 0;
     lora_switch_mode(MODE_SLEEP);
 
-    uint8_t config_array[] = {
-        cnfg.HEAD, 
-        cnfg.ADDH,
-        cnfg.ADDL,
-        cnfg.SPED.sped,
-        cnfg.CHAN,
-        cnfg.OPTION.options
-    };
-
-    uart_transmit_serial(config_array);
+    _delay_ms(2);
+    uart_transmit((uint8_t)cnfg.HEAD);
+    _delay_ms(2);
+    uart_transmit((uint8_t)cnfg.ADDH);
+    _delay_ms(2);
+    uart_transmit((uint8_t)cnfg.ADDH);
+    _delay_ms(2);
+    uart_transmit((uint8_t)cnfg.SPED.sped);
+    _delay_ms(2);
+    uart_transmit((uint8_t)cnfg.CHAN);
+    _delay_ms(2);
+    uart_transmit((uint8_t)cnfg.OPTION.options);
 
     lora_switch_mode(MODE_NORMAL);
     return 1;
@@ -83,16 +85,19 @@ uint8_t lora_init_with_config(Config cnfg) {
 
     lora_switch_mode(MODE_SLEEP);
 
-    uint8_t config_array[] = {
-        cnfg.HEAD, 
-        cnfg.ADDH,
-        cnfg.ADDL,
-        cnfg.SPED.sped,
-        cnfg.CHAN,
-        cnfg.OPTION.options
-    };
+    _delay_ms(2);
+    uart_transmit((uint8_t)cnfg.HEAD);
+    _delay_ms(2);
+    uart_transmit((uint8_t)cnfg.ADDH);
+    _delay_ms(2);
+    uart_transmit((uint8_t)cnfg.ADDH);
+    _delay_ms(2);
+    uart_transmit((uint8_t)cnfg.SPED.sped);
+    _delay_ms(2);
+    uart_transmit((uint8_t)cnfg.CHAN);
+    _delay_ms(2);
+    uart_transmit((uint8_t)cnfg.OPTION.options);
 
-    uart_transmit_serial(config_array);
     lora_switch_mode(MODE_NORMAL);
     return 1;
 }
@@ -102,14 +107,28 @@ uint8_t lora_init_with_config(Config cnfg) {
 ----------------------------------------------------------------------*/
 uint8_t lora_check_version() {
     lora_switch_mode(MODE_SLEEP);
-    
-    uint8_t command[3] = CHECK_VERSION_MESSAGE; 
-    //Переделать отправку данных
-    uart_transmit_serial(command);
-    uart_receive_serial(4, lora_version_data);
+    uint8_t params[4];
+
+    _delay_ms(2);
+    uart_transmit((uint8_t)0xC3);
+    _delay_ms(2);
+    uart_transmit((uint8_t)0xC3);
+    _delay_ms(2);
+    uart_transmit((uint8_t)0xC3);
+
+    // _delay_ms(2);
+    // params[0] = uart_receive();
+    // _delay_ms(2);
+    // params[1] = uart_receive();
+    // _delay_ms(2);
+    // params[2] = uart_receive();
+    // _delay_ms(2);
+    // params[3] = uart_receive();
+    // _delay_ms(2);
+    //uint8_t comand = uart_receive();
     lora_switch_mode(MODE_NORMAL);
     
-    return lora_version_data[2];
+    return 1;
 }
 
 /*----------------------------------------------------------------------
@@ -117,13 +136,32 @@ uint8_t lora_check_version() {
 ----------------------------------------------------------------------*/
 uint8_t lora_get_saved_params() {
     lora_switch_mode(MODE_SLEEP);
-    uint8_t command[3] = SAVED_PARAMS_MESSAGE;
     uint8_t params[6];
-    //Переделать отправку данных
-    uart_transmit_serial(command);
-
+    _delay_ms(50);
+    
+    _delay_ms(2);
+    uart_transmit(0xC1);
+    _delay_ms(2);
+    uart_transmit(0xC1);
+    _delay_ms(2);
+    uart_transmit(0xC1);
+    
+    // _delay_ms(2);
+    // params[0] = uart_receive();
+    // _delay_ms(2);
+    // params[1] = uart_receive();
+    // _delay_ms(2);
+    // params[2] = uart_receive();
+    // _delay_ms(2);
+    // params[3] = uart_receive();
+    // _delay_ms(2);
+    // params[4] = uart_receive();
+    // _delay_ms(2);
+    // params[5] = uart_receive();
+    
+    _delay_ms(40);
     lora_switch_mode(MODE_NORMAL);
-    return uart_receive_serial(6, params);
+    return 1;
 }
 
 /*----------------------------------------------------------------------
@@ -132,9 +170,12 @@ uint8_t lora_get_saved_params() {
 uint8_t lora_reset_config() {
     lora_switch_mode(MODE_SLEEP);
 
-    uint8_t command[3] = RESET_CONFIG_MESSAGE;
-    //Переделать отправку данных
-    uart_transmit_serial(command);
+    _delay_ms(2);
+    uart_transmit(0xC4);
+    _delay_ms(2);
+    uart_transmit(0xC4);
+    _delay_ms(2);
+    uart_transmit(0xC4);
 
     lora_switch_mode(MODE_NORMAL);
 
@@ -196,29 +237,6 @@ void lora_switch_mode(LORA_MODE mode) {
     default:
         break;
     }
-}
-
-void lora_set_frequency(uint32_t freq) {
-    #define F_XOSC  32000000UL
-    uint64_t frf = ((uint64_t)(freq) << 19) / F_XOSC;
-
-    uart_write_register(0x06, (uint8_t)(frf << 16));
-    uart_write_register(0x07, (uint8_t)(frf << 8));
-    uart_write_register(0x08, (uint8_t)(frf << 0));
-}
-
-void set_tx_power(uint8_t level) {
-    if(level < 2) 
-        level = 2;
-    else if(level > 17)
-        level = 17;
-    
-    uart_write_register(REG_PA_CONFIG, PA_BOOST | (level - 2));
-}
-
-void set_address(uint8_t add_tx, uint8_t add_rx) {
-    uart_write_register(REG_FIFO_TX_BASE_ADDR, add_tx);
-    uart_write_register(REG_FIFO_RX_BASE_ADDR, add_rx);
 }
 
 /*----------------------------------------------------------------------
