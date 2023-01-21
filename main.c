@@ -40,10 +40,10 @@ int main(void)
     //Default config
     Config cnfg = {
         SAVE_CNFG,                //0xC0 - сохраняем настройки при отключении питания
-        0x13,
-        0xAC,                    //Адрес - 0000
+        0x21,
+        0x22,                    //Адрес - 0000
         sped, //0x00011010 0x1A
-        0x17,                    //channel (410 + (value * 1M)) = 433MHz
+        0x11,                    //channel (410 + (value * 1M)) = 433MHz
         option    //0x01000100 0x44
     };
 
