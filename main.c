@@ -16,6 +16,7 @@
 
 int main(void)
 {
+    uint8_t btn_ticks_counter = 0; // Счетчик тиков удержания кнопки
 	uart_init(UBRR);
 
     Speed sped = {
@@ -39,40 +40,42 @@ int main(void)
     //Default config
     Config cnfg = {
         SAVE_CNFG,                //0xC0 - сохраняем настройки при отключении питания
-        0x00,
-        0x00,                    //Адрес - 0000
+        0x13,
+        0xAC,                    //Адрес - 0000
         sped, //0x00011010 0x1A
         0x17,                    //channel (410 + (value * 1M)) = 433MHz
         option    //0x01000100 0x44
     };
 
+    DDRE |= (1 << PE2);
+    DDRE |= (1 << PE3);
+
+    DDRE &= ~(1 << PE4); //Настройка вывода PE4 на вход для считывания показаний кнопки
+    PORTE |= (1 << PE4);
+    PORTE &= ~(1 << PE3);
+
     if (lora_init_with_config(cnfg) == 1) {
+        lora_switch_mode(MODE_WAKE_UP);
         while (1) {
-            PORTE &= ~(1 << PE3);
-            _delay_ms(1000);
-            uart_transmit('H');
-            _delay_ms(1000);
-            uart_transmit('E');
-            _delay_ms(1000);
-            // if(lora_check_version() == 0xC3) {
-            //     PORTE |= (1 << PE3);
-            // }
-            _delay_ms(1000);
-            lora_get_saved_params();
-            _delay_ms(1000);
-            //uint8_t letter = (uint8_t)lora_check_version();
-            uart_transmit(0xC1);
-            _delay_ms(1000);
-            // unsigned char letter = (unsigned char)uart_receive();
-            // if(letter == 'H') {
-            //     PORTE |= (1 << PE3);
-            // } else {
-            //     PORTE &= ~(1 << PE3);
-            // }
+
+            if((PINE & (1 << PE4)) == 0) {
+                _delay_ms(10);
+                if (btn_ticks_counter == 0)
+                {
+                    uart_transmit('H');
+                }
+                // Увеличиваем счетчик тиков, пока он не станет равен 10
+                if (btn_ticks_counter < 10)
+                {
+                    btn_ticks_counter++; // Увеличиваем на 1 счетчик тиков
+                }
+            } else {
+                btn_ticks_counter = 0;
+            }
         };
     } else {
         while (1) {
-            /*error*/
+            PORTE |= (1 << PE2);
         };
     }
 

@@ -116,16 +116,6 @@ uint8_t lora_check_version() {
     _delay_ms(2);
     uart_transmit((uint8_t)0xC3);
 
-    // _delay_ms(2);
-    // params[0] = uart_receive();
-    // _delay_ms(2);
-    // params[1] = uart_receive();
-    // _delay_ms(2);
-    // params[2] = uart_receive();
-    // _delay_ms(2);
-    // params[3] = uart_receive();
-    // _delay_ms(2);
-    //uint8_t comand = uart_receive();
     lora_switch_mode(MODE_NORMAL);
     
     return 1;
@@ -146,19 +136,6 @@ uint8_t lora_get_saved_params() {
     _delay_ms(2);
     uart_transmit(0xC1);
     
-    // _delay_ms(2);
-    // params[0] = uart_receive();
-    // _delay_ms(2);
-    // params[1] = uart_receive();
-    // _delay_ms(2);
-    // params[2] = uart_receive();
-    // _delay_ms(2);
-    // params[3] = uart_receive();
-    // _delay_ms(2);
-    // params[4] = uart_receive();
-    // _delay_ms(2);
-    // params[5] = uart_receive();
-    
     _delay_ms(40);
     lora_switch_mode(MODE_NORMAL);
     return 1;
@@ -178,8 +155,7 @@ uint8_t lora_reset_config() {
     uart_transmit(0xC4);
 
     lora_switch_mode(MODE_NORMAL);
-
-    //TODO: Возвращать адевкатное значение
+    
     return 1;
 }
 
