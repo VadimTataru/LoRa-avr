@@ -238,21 +238,6 @@ uint8_t sendMessage(const char *buffer, uint8_t size) {
     // return size;
 }
 
-/*----------------------------------------------------------------------
- Отправка сообщения на фиксированный адрес по радиомодулю
-----------------------------------------------------------------------*/
-uint8_t sendMessageOnAdress(FixedAdrConfig address, const char *buffer, uint8_t size) {
-    if(size == 0) return 0;
-    lora_switch_mode(MODE_NORMAL);
-
-    uart_transmit(address.ADDH);
-    uart_transmit(address.ADDL);
-    uart_transmit(address.CHAN);
-    uart_transmit_serial(buffer);
-
-    return size;
-}
-
 int8_t available() {
     // сужающее преобразование(uint8_t -> int8_t)
     return (int8_t)(uart_read_register(REG_RX_NB_BYTES) - packetIndex);
